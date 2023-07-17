@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 export class HeaderComponent {
   constructor(private router: Router) {}
 
-  find() {
+  find(): void {
     const findInput = document.getElementById('exampleFormControlInput1');
     if (findInput?.className === 'form-control') {
       document.getElementById('exampleFormControlInput1')?.focus();
