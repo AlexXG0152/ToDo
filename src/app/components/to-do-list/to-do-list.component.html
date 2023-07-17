@@ -1,77 +1,102 @@
 <app-filter-to-do (textChange)="onTextChange($event)"></app-filter-to-do>
 
-<!-- <ng-container *ngIf="results != null">
-  <ol *ngIf="results.length > 0; else noResults">
-    <li *ngFor="let item of results">
-      {{item.title}}
-    </li>
-  </ol>
-  <ng-template #noResults>
-    No results
-  </ng-template>
-</ng-container> -->
-
 <ng-container *ngIf="results != null">
+
+  <div class="d-flex flex-row-reverse m-3">
+    <button id="switcher" type="button" class="switcher btn btn-light" (click)="changeView()">{{tableView ? 'Table' :
+      'Cards'}}</button>
+    <label for="switcher" class="d-flex align-items-center">Change view to: </label>
+  </div>
+
   <ng-container *ngIf="results.length > 0; else noResults">
-    <div class="row row-cols-1 row-cols-md-3 g-4 mx-1">
-      <div class="col" *ngFor="let task of results">
-        <div class="card h-100">
-          <div class="card-header">
-            <h5 class="card-title">{{task.title}} </h5>
-          </div>
-          <div class="card-body">
-            <p class="card-text">{{task.text}}</p>
-          </div>
-          <div class="card-footer d-flex flex-column justify-content-center">
-            <p class="card-text">Create: {{task.createDate | date:'dd.MM.yyyy hh:mm'}}</p>
-            <p class="card-text" *ngIf="task.finishDate !== 0">Finish: {{task.finishDate | date:'dd.MM.yyyy hh:mm'}}</p>
-          </div>
-          <div class="card-footer d-flex justify-content-evenly">
-            <button type="button" class="btn btn-success btn-sm" (click)="finish(task.id)"
-              [disabled]="task.completed">Finish</button>
-            <button type="button" class="btn btn-warning btn-sm" (click)="edit(task)" [disabled]="task.completed"
-              data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>
-            <button type="button" class="btn btn-outline-danger btn-sm" (click)="delete(task.id)">Delete</button>
-          </div>
-        </div>
-
-
-        <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h1 class="modal-title fs-5" id="editModalLabel">Edit task</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closebutton
-                  (click)="close()"></button>
-              </div>
-              <div class="modal-body">
-                <form [formGroup]="myEditForm" (ngSubmit)="save()" novalidate>
-                  <div class="mb-3">
-                    <label for="exampleFormControlInput1" class="form-label">Task name</label>
-                    <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Task name"
-                      formControlName="title">
-                  </div>
-                  <div class="mb-3">
-                    <label for="exampleFormControlTextarea1" class="form-label">Task text</label>
-                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
-                      formControlName="text"></textarea>
-                  </div>
-                </form>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-success" (click)="save()"
-                  [disabled]="!myEditForm.valid">Save</button>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="editModal" #closebutton
-                  (click)="close()">Close</button>
-              </div>
+    <ng-container *ngIf="tableView; else table">
+      <div class="row row-cols-1 row-cols-md-3 g-4 mx-1">
+        <div class="col" *ngFor="let task of results">
+          <div class="card h-100">
+            <div class="card-header">
+              <h5 class="card-title">{{task.title}} </h5>
+            </div>
+            <div class="card-body">
+              <p class="card-text">{{task.text}}</p>
+            </div>
+            <div class="card-footer d-flex flex-column justify-content-center">
+              <p class="card-text">Create: {{task.createDate | date:'dd.MM.yyyy hh:mm'}}</p>
+              <p class="card-text" *ngIf="task.finishDate !== 0">Finish: {{task.finishDate | date:'dd.MM.yyyy hh:mm'}}
+              </p>
+            </div>
+            <div class="card-footer d-flex justify-content-evenly">
+              <button type="button" class="btn btn-success btn-sm" (click)="finish(task.id)"
+                [disabled]="task.completed">Finish</button>
+              <button type="button" class="btn btn-warning btn-sm" (click)="edit(task)" [disabled]="task.completed"
+                data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>
+              <button type="button" class="btn btn-outline-danger btn-sm" (click)="delete(task.id)">Delete</button>
             </div>
           </div>
         </div>
+      </div>
+    </ng-container>
 
+    <ng-template #table>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Title</th>
+            <th scope="col">Text</th>
+            <th scope="col">Create</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let task of results; let i = index">
+            <th scope="row">{{i+1}}</th>
+            <td>{{task.title}}</td>
+            <td>{{task.text}}</td>
+            <td>{{task.createDate | date:'dd.MM.yyyy hh:mm'}}</td>
+            <td class="action d-flex flex-column">
+              <button type="button" class="btn btn-success btn-sm" (click)="finish(task.id)"
+                [disabled]="task.completed">Finish</button>
+              <button type="button" class="btn btn-warning btn-sm" (click)="edit(task)" [disabled]="task.completed"
+                data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>
+              <button type="button" class="btn btn-outline-danger btn-sm" (click)="delete(task.id)">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </ng-template>
 
+    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="editModalLabel">Edit task</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closebutton
+              (click)="close()"></button>
+          </div>
+          <div class="modal-body">
+            <form [formGroup]="myEditForm" (ngSubmit)="save()" novalidate>
+              <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">Task name</label>
+                <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Task name"
+                  formControlName="title">
+              </div>
+              <div class="mb-3">
+                <label for="exampleFormControlTextarea1" class="form-label">Task text</label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
+                  formControlName="text"></textarea>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-success" (click)="save()" [disabled]="!myEditForm.valid">Save</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="editModal" #closebutton
+              (click)="close()">Close</button>
+          </div>
+        </div>
       </div>
     </div>
   </ng-container>
+
   <ng-template #noResults>
     <div class="card text-center w-55">
       <div class="card-body">
@@ -79,4 +104,5 @@
       </div>
     </div>
   </ng-template>
+
 </ng-container>

@@ -10,6 +10,12 @@ import { ToDoService } from 'src/app/services/to-do-service.service';
   styleUrls: ['./to-do-list.component.scss'],
 })
 export class ToDoListComponent implements OnInit {
+  tableView = false
+
+  changeView(){
+    this.tableView = !this.tableView
+  }
+
   results: ToDo[] | null | undefined = null;
   searchRequestSubscriptions: Subscription[] = [];
 
