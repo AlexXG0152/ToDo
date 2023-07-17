@@ -32,18 +32,18 @@ export class FilterToDoComponent implements OnInit, OnDestroy {
 
   subscriptions: Subscription[] = [];
 
-  ngOnInit() {
+  ngOnInit(): void {
     const subscription = this.trigger.subscribe((currentValue) => {
       this.textChange.emit(currentValue);
     });
     this.subscriptions.push(subscription);
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.subscriptions.forEach((sub) => sub.unsubscribe());
   }
 
-  onInput(e: any) {
+  onInput(e: any): void {
     this.inputValue.next(e.target.value);
   }
 }

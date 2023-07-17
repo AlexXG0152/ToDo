@@ -219,7 +219,7 @@ export class ToDoService {
     return of(this.taskData);
   }
 
-  getResults(changedText: string) {
+  getResults(changedText: string): Observable<ToDo[]> {
     const result = this.taskData?.filter(
       (item) =>
         item.title.toLowerCase().includes(changedText.toLowerCase()) ||
@@ -229,7 +229,7 @@ export class ToDoService {
   }
 
   createData(data: ToDo): Observable<ToDo[]> {
-    this.taskData.push(data);
+    this.taskData.unshift(data);
     return of(this.taskData);
   }
 

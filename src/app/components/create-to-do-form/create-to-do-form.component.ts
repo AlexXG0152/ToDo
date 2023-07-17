@@ -21,7 +21,7 @@ export class CreateToDoFormComponent {
     text: new FormControl('', [Validators.required, Validators.minLength(3)]),
   });
 
-  create() {
+  create(): void {
     const newData: ToDo = {
       userId: 1,
       id: uuid.v4(),
@@ -38,7 +38,7 @@ export class CreateToDoFormComponent {
     this.close();
   }
 
-  close() {
+  close(): void {
     this.myForm.reset();
     this.closebutton?.nativeElement.click();
   }
