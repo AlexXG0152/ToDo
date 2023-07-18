@@ -15,6 +15,7 @@ export class ToDoListComponent implements OnInit {
   tableView = false;
   changeView(): void {
     this.tableView = !this.tableView;
+    this.allSelectedValues = []
   }
 
   allSelectedValues: ToDo[] = [];
@@ -29,6 +30,7 @@ export class ToDoListComponent implements OnInit {
     }
     // console.log(this.allSelectedValues);
   }
+
 
   download(): void {
     this.data = this.allSelectedValues.map((item, index) => {
@@ -64,6 +66,19 @@ Completed: ${item.completed}
       encodeURIComponent(JSON.stringify(this.data));
     window.location.href = mailToLink;
   }
+
+  finishAllSelected(){
+    this.allSelectedValues.forEach(item => {
+      this.finish(item.id)
+    })
+  }
+
+  deleteAllSelected(){
+    this.allSelectedValues.forEach(item => {
+      this.delete(item.id)
+    })
+  }
+
 
   results: ToDo[] | null | undefined = null;
   searchRequestSubscriptions: Subscription[] = [];

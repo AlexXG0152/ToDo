@@ -6,8 +6,11 @@
 
     <div class="left d-flex justify-content-start">
       <div *ngIf="allSelectedValues.length !== 0">
-      <button type="button" class="btn btn-success me-5" (click)="sendByMail()">Send by email</button>
-      <button type="button" class="btn btn-success me-5" (click)="download()">Download .txt file</button></div>
+        <button type="button" class="btn btn-primary me-5" (click)="sendByMail()">Send by email</button>
+        <button type="button" class="btn btn-outline-primary me-5" (click)="download()">Download .txt file</button>
+        <button type="button" class="btn btn-outline-success me-5" (click)="finishAllSelected()">Finish selected</button>
+        <button type="button" class="btn btn-outline-danger me-5"  (click)="deleteAllSelected()">Delete selected</button>
+      </div>
     </div>
 
     <div class="right d-flex justify-content-end">
@@ -16,7 +19,7 @@
         'Cards'}}</button>
     </div>
 
-</div>
+  </div>
 
   <ng-container *ngIf="results.length > 0; else noResults">
     <ng-container *ngIf="tableView; else table">
@@ -24,12 +27,13 @@
         <div class="col" *ngFor="let task of results">
           <div class="card h-100">
             <div class="card-header">
-              <h5 class="card-title">{{task.title}} </h5>
-              <div class="form-check">
-                <input class="form-check-input" (change)="onChange(task)" type="checkbox"
-                  id="{{task.id}}">
+              <h5 class="card-title">
+              <!-- <div class="form-check"> -->
+                <input class="form-check-input" (change)="onChange(task)" type="checkbox" id="{{task.id}}">
                 <label class="form-check-label" for="{{task.id}}"></label>
-              </div>
+              <!-- </div> -->
+              {{task.title}}
+            </h5>
             </div>
             <div class="card-body">
               <p class="card-text">{{task.text}}</p>
@@ -67,8 +71,7 @@
           <tr *ngFor="let task of results; let i = index">
             <th>
               <div class="form-check">
-                <input class="form-check-input" (change)="onChange(task)" type="checkbox" value=""
-                id="{{task.id}}">
+                <input class="form-check-input" (change)="onChange(task)" type="checkbox" value="" id="{{task.id}}">
                 <label class="form-check-label" for="{{task.id}}"></label>
               </div>
             </th>
